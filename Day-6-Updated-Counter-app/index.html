@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+      }
+
+      .container {
+        text-align: center;
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      #count {
+        font-size: 60px;
+        margin: 20px 0;
+        color: #333;
+      }
+
+      .buttons button {
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: 0.3s;
+      }
+
+      #increase {
+        background: #28a745;
+        color: white;
+      }
+
+      #decrease {
+        background: #dc3545;
+        color: white;
+      }
+
+      #reset {
+        background: #6c757d;
+        color: white;
+      }
+
+      button:hover {
+        transform: scale(1.1);
+      }
+      button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+        transform: none !important;
+      } 
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Counter App</h1>
+
+      <h2 id="count">0</h2>
+
+      <div class="buttons">
+        <button id="decrease">Decrease</button>
+        <button id="reset">Reset</button>
+        <button id="increase">Increase</button>
+      </div>
+    </div>
+
+    <script>
+      let count = 0;
+
+      const countValue = document.getElementById("count");
+      const increaseBtn = document.getElementById("increase");
+      const decreaseBtn = document.getElementById("decrease");
+      const resetBtn = document.getElementById("reset");
+
+      // limits
+      const MIN = 0;
+      const MAX = 10;
+
+      function updateUI() {
+        countValue.textContent = count;
+
+        // disable logic
+        decreaseBtn.disabled = count === MIN;
+        increaseBtn.disabled = count === MAX;
+      }
+
+      // Increase
+      increaseBtn.addEventListener("click", () => {
+        if (count < MAX) {
+          count++;
+          updateUI();
+        }
+      });
+
+      // Decrease
+      decreaseBtn.addEventListener("click", () => {
+        if (count > MIN) {
+          count--;
+          updateUI();
+        }
+      });
+
+      // Reset
+      resetBtn.addEventListener("click", () => {
+        count = 0;
+        updateUI();
+      });
+
+      // initial UI setup
+      updateUI();
+    </script>
+  </body>
+</html>
