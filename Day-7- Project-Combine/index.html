@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Project - Day 7</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      transition: 0.3s;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    .clock {
+      font-size: 22px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .counter {
+      margin: 20px 0;
+    }
+
+    .counter button {
+      padding: 10px 15px;
+      font-size: 18px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    .count {
+      font-size: 24px;
+      margin: 10px 0;
+    }
+
+    .color-btn {
+      padding: 10px 20px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <h2>🕒 Clock</h2>
+    <div class="clock" id="clock">00:00:00</div>
+
+    <h2>🔢 Counter</h2>
+    <div class="counter">
+      <button id="decrease">-</button>
+      <div class="count" id="count">0</div>
+      <button id="increase">+</button>
+    </div>
+
+    <h2>🎨 Color Changer</h2>
+    <button class="color-btn" id="colorBtn">Change Color</button>
+
+  </div>
+
+  <script>
+    // ================= CLOCK =================
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      let minutes = now.getMinutes();
+      let seconds = now.getSeconds();
+
+      hours = hours < 10 ? "0" + hours : hours;
+      minutes = minutes < 10 ? "0" + minutes : minutes;
+      seconds = seconds < 10 ? "0" + seconds : seconds;
+
+      document.getElementById("clock").textContent =
+        hours + ":" + minutes + ":" + seconds;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // ================= COUNTER =================
+    let count = localStorage.getItem("count") || 0;
+
+    const countEl = document.getElementById("count");
+    const incBtn = document.getElementById("increase");
+    const decBtn = document.getElementById("decrease");
+
+    countEl.textContent = count;
+
+    function updateButtons() {
+      decBtn.disabled = count <= 0;
+      incBtn.disabled = count >= 10;
+    }
+
+    updateButtons();
+
+    incBtn.addEventListener("click", () => {
+      count++;
+      countEl.textContent = count;
+      localStorage.setItem("count", count);
+      updateButtons();
+    });
+
+    decBtn.addEventListener("click", () => {
+      count--;
+      countEl.textContent = count;
+      localStorage.setItem("count", count);
+      updateButtons();
+    });
+
+    // ================= COLOR CHANGER =================
+    const colorBtn = document.getElementById("colorBtn");
+
+    function getRandomColor() {
+      return "#" + Math.floor(Math.random() * 16777215).toString(16);
+    }
+
+    // load saved color
+    const savedColor = localStorage.getItem("bgColor");
+    if (savedColor) {
+      document.body.style.background = savedColor;
+    }
+
+    colorBtn.addEventListener("click", () => {
+      const newColor = getRandomColor();
+      document.body.style.background = newColor;
+      localStorage.setItem("bgColor", newColor);
+    });
+  </script>
+
+</body>
+</html>
